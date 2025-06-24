@@ -11,10 +11,14 @@ export function generateRandomString(length: number) {
 export const server = {
 	printEnv: defineAction({
 		handler: async (context) => {
-			const { env } = context.locals.runtime;
+			// const { env } = context.locals.runtime;
+			// return {
+			// 	SPOTIFY_CLIENT_ID: env.SPOTIFY_CLIENT_ID,
+			// 	SPOTIFY_CLIENT_SECRET: env.SPOTIFY_CLIENT_SECRET,
+			// };
 			return {
-				SPOTIFY_CLIENT_ID: env.SPOTIFY_CLIENT_ID,
-				SPOTIFY_CLIENT_SECRET: env.SPOTIFY_CLIENT_SECRET,
+				SPOTIFY_CLIENT_ID: import.meta.env.SPOTIFY_CLIENT_ID,
+				SPOTIFY_CLIENT_SECRET: import.meta.env.SPOTIFY_CLIENT_SECRET,
 			};
 		},
 	}),

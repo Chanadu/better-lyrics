@@ -13,5 +13,6 @@
 		console.log(data);
 	} else alert(error.message);
 
-	// console.log('Access Token:', access_token);
+	localStorage.setItem('access_token', data.access_token);
+	window.location.href = '/';
 </script>

@@ -23,22 +23,22 @@ export const server = {
 	}),
 	spotifyAuth: defineAction({
 		handler: async () => {
-			// const scope = 'user-read-private user-read-email';
-			// const authUrl = new URL('https://accounts.spotify.com/authorize');
-			// const state = generateRandomString(16);
-			//
-			// const params = {
-			// 	response_type: 'code',
-			// 	client_id: SPOTIFY_CLIENT_ID,
-			// 	scope: scope,
-			// 	redirect_uri: REDIRECT_URI,
-			// 	state: state,
-			// };
-			//
-			// authUrl.search = new URLSearchParams(params).toString();
-			// return { url: authUrl.toString(), state };
-			const sdk = SpotifyApi.withUserAuthorization(SPOTIFY_CLIENT_ID, REDIRECT_URI);
-			return { api: sdk };
+			console.log('clientID: ' + SPOTIFY_CLIENT_ID);
+
+			const scope = 'user-read-private user-read-email';
+			const authUrl = new URL('https://accounts.spotify.com/authorize');
+			const state = generateRandomString(16);
+
+			const params = {
+				response_type: 'code',
+				client_id: SPOTIFY_CLIENT_ID,
+				scope: scope,
+				redirect_uri: REDIRECT_URI,
+				state: state,
+			};
+
+			authUrl.search = new URLSearchParams(params).toString();
+			return { url: authUrl.toString(), state };
 		},
 	}),
 	askAuthToken: defineAction({
@@ -46,22 +46,22 @@ export const server = {
 			code: z.string(),
 		}),
 		handler: async ({ code }) => {
-			// const authString = `${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`;
-			//
-			// const response = await fetch('https://accounts.spotify.com/api/token', {
-			// 	method: 'POST',
-			// 	headers: {
-			// 		'Content-Type': 'application/x-www-form-urlencoded',
-			// 		Authorization: 'Basic ' + btoa(authString),
-			// 	},
-			// 	body: new URLSearchParams({
-			// 		grant_type: 'authorization_code',
-			// 		code: code,
-			// 		redirect_uri: REDIRECT_URI,
-			// 	}),
-			// });
-			//
-			// return response.json();
+			const authString = `${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`;
+
+			const response = await fetch('https://accounts.spotify.com/api/token', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded',
+					Authorization: 'Basic ' + btoa(authString),
+				},
+				body: new URLSearchParams({
+					grant_type: 'authorization_code',
+					code: code,
+					redirect_uri: REDIRECT_URI,
+				}),
+			});
+
+			return response.json();
 		},
 	}),
 };

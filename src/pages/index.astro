@@ -7,17 +7,23 @@ import UserProfile from '../components/UserProfile.astro';
 ---
 
 <Layout>
-	<!-- <Input /> -->
-	<div class='h-12'></div>
-	<Output />
-	<Button id='test-button'>Test</Button>
-	<Button id='auth-spotify'>Auth Spotify</Button>
-	<Button id='get-profile'>Get Profile</Button>
-	<UserProfile profileData={null} />
+	<div class='flex h-full w-full items-center justify-center gap-4'>
+		<!-- <Input /> -->
+		<div class='h-12'></div>
+		<!-- <Output /> -->
+		<Button id='test-button'>Test</Button>
+		<Button id='auth-spotify'>Auth Spotify</Button>
+		<Button id='get-profile'>Get Profile</Button>
+		<!-- <UserProfile profileData={null} /> -->
+	</div>
 </Layout>
 
 <script>
 	import { actions } from 'astro:actions';
+	const accessToken = localStorage.getItem('access_token');
+	if (accessToken != null) {
+		window.location.href = '/userProfile';
+	}
 
 	const authSpotifyButton = document.querySelector('#auth-spotify')!;
 	const getProfileButton = document.querySelector('#get-profile')!;

@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
-	<div class='item-center flex h-screen w-screen justify-center text-3xl'>Loading</div>
+	<div class='flex h-full w-full items-center justify-center text-3xl'>Loading...</div>
 </Layout>
 
 <script>
@@ -11,10 +11,13 @@ import Layout from '../layouts/Layout.astro';
 	const urlParams = new URLSearchParams(window.location.search);
 	const code = urlParams.get('code')!;
 	const { data, error } = await actions.askAuthToken({ code });
-	if (!error) {
+	if (error) {
+		alert(error.message);
+		console.error('Error Code: ' + error.code);
+		console.error('Error Message: ' + error.message);
+	} else {
 		console.log(data);
-	} else alert(error.message);
-
-	localStorage.setItem('access_token', data.access_token);
-	window.location.href = '/';
+		localStorage.setItem('access_token', data.access_token);
+		window.location.href = '/';
+	}
 </script>

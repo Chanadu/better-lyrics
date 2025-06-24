@@ -35,7 +35,13 @@ import Button from '../components/Button.astro';
 		} else alert(error.message);
 	});
 
-	authSpotifyButton.addEventListener('click', async () => {});
+	authSpotifyButton.addEventListener('click', async () => {
+		const { data, error } = await actions.spotifyAuth();
+		if (!error) {
+			alert(data);
+			console.log(data);
+		} else alert(error.message);
+	});
 
 	getKeyButton.addEventListener('click', async () => {
 		const { data, error } = await actions.askAuthToken({ code: inputCode.value });

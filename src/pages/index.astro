@@ -11,14 +11,23 @@ import Button from '../components/Button.astro';
 	<Output />
 	<Button>Test</Button>
 	<Button id='auth-spotify'>Auth Spotify</Button>
+	<Button id='get-profile'>Get Profile</Button>
 </Layout>
 
 <script>
 	import { requestUserAuth, getProfile } from '../utils/spotify.ts';
 
-	const button = document.querySelector('#auth-spotify')!;
-	button.addEventListener('click', async () => {
+	const authSpotifyButton = document.querySelector('#auth-spotify')!;
+	const getProfileButton = document.querySelector('#get-profile')!;
+
+	authSpotifyButton.addEventListener('click', async () => {
+		const clientId: string = import.meta.env.PUBLIC_CLIENT_ID;
+		console.log('clientID: ' + clientId);
+
 		await requestUserAuth();
+	});
+
+	getProfileButton.addEventListener('click', async () => {
 		const data = await getProfile();
 		console.log(data);
 	});

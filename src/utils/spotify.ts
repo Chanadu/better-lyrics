@@ -24,7 +24,7 @@ export async function requestUserAuth() {
 
 	const clientId: string = import.meta.env.PUBLIC_CLIENT_ID;
 	console.log('clientID: ' + clientId);
-	const redirectUri = 'http://127.0.0.1:4321/';
+	const redirectUri = 'https://github.com/Chanadu';
 
 	const scope = 'user-read-private user-read-email';
 	const authUrl = new URL('https://accounts.spotify.com/authorize');
@@ -43,7 +43,8 @@ export async function requestUserAuth() {
 	};
 
 	authUrl.search = new URLSearchParams(params).toString();
-	window.location.href = authUrl.toString();
+	// window.location.href = authUrl.toString();
+	window.open(authUrl, '_blank')!.focus();
 
 	const urlParams = new URLSearchParams(window.location.search);
 	let code = urlParams.get('code')!;

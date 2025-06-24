@@ -21,6 +21,7 @@ export default defineConfig({
 		schema: {
 			SPOTIFY_CLIENT_ID: envField.string({ context: 'server', access: 'secret' }),
 			SPOTIFY_CLIENT_SECRET: envField.string({ context: 'server', access: 'secret' }),
+			REDIRECT_URI: envField.string({ context: 'client', access: 'public' }),
 		},
 	},
 });

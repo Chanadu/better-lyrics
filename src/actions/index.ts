@@ -1,4 +1,5 @@
 import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from 'astro:env/server';
+import { REDIRECT_URI } from 'astro:env/client';
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
 
@@ -21,7 +22,6 @@ export const server = {
 	spotifyAuth: defineAction({
 		handler: async () => {
 			console.log('clientID: ' + SPOTIFY_CLIENT_ID);
-			var redirectURI = 'http://127.0.0.1:4321/callback';
 
 			const scope = 'user-read-private user-read-email';
 			const authUrl = new URL('https://accounts.spotify.com/authorize');
@@ -31,7 +31,7 @@ export const server = {
 				response_type: 'code',
 				client_id: SPOTIFY_CLIENT_ID,
 				scope: scope,
-				redirect_uri: redirectURI,
+				redirect_uri: REDIRECT_URI,
 				state: state,
 			};
 
@@ -44,8 +44,6 @@ export const server = {
 			code: z.string(),
 		}),
 		handler: async ({ code }) => {
-			const redirectURI = 'http://127.0.0.1:4321/callback'; // Make sure this matches above
-
 			const authString = `${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`;
 
 			const response = await fetch('https://accounts.spotify.com/api/token', {
@@ -57,7 +55,7 @@ export const server = {
 				body: new URLSearchParams({
 					grant_type: 'authorization_code',
 					code: code,
-					redirect_uri: redirectURI, // Must match above
+					redirect_uri: REDIRECT_URI,
 				}),
 			});
 

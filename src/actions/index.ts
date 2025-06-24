@@ -20,9 +20,7 @@ export const server = {
 	}),
 	spotifyAuth: defineAction({
 		handler: async () => {
-			const clientID = import.meta.env.SPOTIFY_CLIENT_ID;
-
-			console.log('clientID: ' + clientID);
+			console.log('clientID: ' + SPOTIFY_CLIENT_ID);
 			var redirectURI = 'http://127.0.0.1:4321/callback';
 
 			const scope = 'user-read-private user-read-email';
@@ -31,7 +29,7 @@ export const server = {
 
 			const params = {
 				response_type: 'code',
-				client_id: clientID,
+				client_id: SPOTIFY_CLIENT_ID,
 				scope: scope,
 				redirect_uri: redirectURI,
 				state: state,
@@ -46,11 +44,9 @@ export const server = {
 			code: z.string(),
 		}),
 		handler: async ({ code }) => {
-			const clientID = import.meta.env.SPOTIFY_CLIENT_ID;
-			const clientSecret = import.meta.env.SPOTIFY_CLIENT_SECRET;
 			const redirectURI = 'http://127.0.0.1:4321/callback'; // Make sure this matches above
 
-			const authString = `${clientID}:${clientSecret}`;
+			const authString = `${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`;
 
 			const response = await fetch('https://accounts.spotify.com/api/token', {
 				method: 'POST',

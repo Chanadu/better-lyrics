@@ -51,7 +51,7 @@ export const server = {
 		handler: async ({ code }) => {
 			const clientID = import.meta.env.SPOTIFY_CLIENT_ID;
 			const clientSecret = import.meta.env.SPOTIFY_CLIENT_SECRET;
-			const redirectURI = 'https://github.com/Chanadu'; // Make sure this matches above
+			const redirectURI = 'http://127.0.0.1:4321/callback'; // Make sure this matches above
 
 			const authString = `${clientID}:${clientSecret}`;
 

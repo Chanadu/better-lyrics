@@ -37,10 +37,12 @@ import Button from '../components/Button.astro';
 
 	authSpotifyButton.addEventListener('click', async () => {
 		const { data, error } = await actions.spotifyAuth();
-		if (!error) {
-			alert(data);
-			console.log(data);
-		} else alert(error.message);
+		if (error) {
+			alert(error.message);
+			return;
+		}
+		console.log(data);
+		window.location.href = data.url;
 	});
 
 	getKeyButton.addEventListener('click', async () => {

@@ -11,13 +11,12 @@ import Button from '../components/Button.astro';
 	<Output />
 	<Button id='test-button'>Test</Button>
 	<Button id='auth-spotify'>Auth Spotify</Button>
-	<Button id='get-key'>Get Key</Button>
 	<Button id='get-profile'>Get Profile</Button>
-	<input class='border' id='input-code' />
 </Layout>
 
 <script>
 	import { actions } from 'astro:actions';
+	import { getProfile } from '../utils/OLD_spotify';
 
 	const authSpotifyButton = document.querySelector('#auth-spotify')!;
 	const getKeyButton = document.querySelector('#get-key')!;
@@ -45,10 +44,21 @@ import Button from '../components/Button.astro';
 		window.location.href = data.url;
 	});
 
-	getKeyButton.addEventListener('click', async () => {
-		const { data, error } = await actions.askAuthToken({ code: inputCode.value });
+	getProfileButton.addEventListener('click', async () => {
+		const accessToken = localStorage.getItem('access_token');
+		if (!accessToken) {
+			alert('Please authenticate first.');
+			return;
+		}
 
-		if (!error) alert(data);
-		else alert(error.message);
+		const response = await fetch('https://api.spotify.com/v1/me', {
+			headers: {
+				Authorization: 'Bearer ' + accessToken,
+			},
+		});
+
+		const data = await response.json();
+		alert(JSON.stringify(data, null, 2));
+		console.log(data);
 	});
 </script>

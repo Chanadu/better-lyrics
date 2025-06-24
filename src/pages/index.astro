@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Input from '../components/Input.astro';
 import Output from '../components/Output.astro';
 import Button from '../components/Button.astro';
+import UserProfile from '../components/UserProfile.astro';
 ---
 
 <Layout>
@@ -12,6 +13,7 @@ import Button from '../components/Button.astro';
 	<Button id='test-button'>Test</Button>
 	<Button id='auth-spotify'>Auth Spotify</Button>
 	<Button id='get-profile'>Get Profile</Button>
+	<UserProfile profileData={null} />
 </Layout>
 
 <script>
@@ -24,7 +26,6 @@ import Button from '../components/Button.astro';
 	testButton.addEventListener('click', async () => {
 		const { data, error } = await actions.printEnv();
 		if (!error) {
-			alert(JSON.stringify(data, null, 2));
 			console.log(data);
 		} else alert(error.message);
 	});
@@ -41,6 +42,7 @@ import Button from '../components/Button.astro';
 
 	getProfileButton.addEventListener('click', async () => {
 		const accessToken = localStorage.getItem('access_token');
+        :Wa
 		if (!accessToken) {
 			alert('Please authenticate first.');
 			return;
@@ -53,7 +55,6 @@ import Button from '../components/Button.astro';
 		});
 
 		const data = await response.json();
-		alert(JSON.stringify(data, null, 2));
 		console.log(data);
 	});
 </script>

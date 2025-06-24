@@ -1,3 +1,4 @@
+import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from 'astro:env/server';
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
 
@@ -10,21 +11,17 @@ export function generateRandomString(length: number) {
 // ...existing code...
 export const server = {
 	printEnv: defineAction({
-		handler: async (context) => {
-			// const { env } = context.locals.runtime;
-			// return {
-			// 	SPOTIFY_CLIENT_ID: env.SPOTIFY_CLIENT_ID,
-			// 	SPOTIFY_CLIENT_SECRET: env.SPOTIFY_CLIENT_SECRET,
-			// };
+		handler: async () => {
 			return {
-				SPOTIFY_CLIENT_ID: import.meta.env.SPOTIFY_CLIENT_ID,
-				SPOTIFY_CLIENT_SECRET: import.meta.env.SPOTIFY_CLIENT_SECRET,
+				SPOTIFY_CLIENT_ID: SPOTIFY_CLIENT_ID,
+				SPOTIFY_CLIENT_SECRET: SPOTIFY_CLIENT_SECRET,
 			};
 		},
 	}),
 	spotifyAuth: defineAction({
 		handler: async () => {
 			const clientID = import.meta.env.SPOTIFY_CLIENT_ID;
+
 			console.log('clientID: ' + clientID);
 			var redirectURI = 'http://127.0.0.1:4321/callback';
 

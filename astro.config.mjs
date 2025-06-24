@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, envField } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -14,6 +14,13 @@ export default defineConfig({
 	adapter: cloudflare({
 		platformProxy: {
 			enabled: true,
+			configPath: './wrangler.json',
 		},
 	}),
+	env: {
+		schema: {
+			SPOTIFY_CLIENT_ID: envField.string({ context: 'server', access: 'secret' }),
+			SPOTIFY_CLIENT_SECRET: envField.string({ context: 'server', access: 'secret' }),
+		},
+	},
 });

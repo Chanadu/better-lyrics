@@ -2,7 +2,6 @@ import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from 'astro:env/server';
 import { REDIRECT_URI } from 'astro:env/client';
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
-import { SpotifyApi } from '@spotify/web-api-ts-sdk';
 
 export function generateRandomString(length: number) {
 	const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

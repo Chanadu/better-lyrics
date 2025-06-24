@@ -42,7 +42,6 @@ import UserProfile from '../components/UserProfile.astro';
 
 	getProfileButton.addEventListener('click', async () => {
 		const accessToken = localStorage.getItem('access_token');
-        :Wa
 		if (!accessToken) {
 			alert('Please authenticate first.');
 			return;

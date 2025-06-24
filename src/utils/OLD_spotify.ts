@@ -48,6 +48,7 @@ export async function requestUserAuth() {
 
 	const urlParams = new URLSearchParams(window.location.search);
 	let code = urlParams.get('code')!;
+	console.log('code: ' + code);
 
 	const url = 'https://accounts.spotify.com/api/token';
 	const payload = {
@@ -58,7 +59,7 @@ export async function requestUserAuth() {
 		body: new URLSearchParams({
 			client_id: clientId,
 			grant_type: 'authorization_code',
-			code,
+			code: code,
 			redirect_uri: redirectUri,
 			code_verifier: codeVerifier,
 		}),

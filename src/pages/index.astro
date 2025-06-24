@@ -9,7 +9,7 @@ import Button from '../components/Button.astro';
 	<!-- <Input /> -->
 	<div class='h-12'></div>
 	<Output />
-	<Button>Test</Button>
+	<Button id='test-button'>Test</Button>
 	<Button id='auth-spotify'>Auth Spotify</Button>
 	<Button id='get-key'>Get Key</Button>
 	<Button id='get-profile'>Get Profile</Button>
@@ -23,20 +23,15 @@ import Button from '../components/Button.astro';
 	const getKeyButton = document.querySelector('#get-key')!;
 	const getProfileButton = document.querySelector('#get-profile')!;
 	const inputCode = document.querySelector('#input-code')! as HTMLInputElement;
+	const testButton = document.querySelector('#test-button')!;
 
-	let state: string = "";
+	let state: string = '';
 
-
-	authSpotifyButton.addEventListener('click', async () => {
-		const { data, error } = await actions.spotifyAuth({});
-
-		if (!error) {
-			window.open(data.url, '_blank');
-			state = data.state;
-		}
-
-		else alert(error.message);
+	testButton.addEventListener('click', async () => {
+		const { env } = Astro.locals.runtime;
 	});
+
+	authSpotifyButton.addEventListener('click', async () => {});
 
 	getKeyButton.addEventListener('click', async () => {
 		const { data, error } = await actions.askAuthToken({ code: inputCode.value });

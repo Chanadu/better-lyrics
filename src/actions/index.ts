@@ -7,11 +7,13 @@ export function generateRandomString(length: number) {
 	return values.reduce((acc, x) => acc + possible[x % possible.length], '');
 }
 
+// ...existing code...
 export const server = {
 	spotifyAuth: defineAction({
-		handler: async () => {
+		handler: async (context) => {
+			const { env } = context.locals.runtime;
+
 			const clientID = import.meta.env.SPOTIFY_CLIENT_ID;
-			console.log('clientID: ' + clientID);
 			const redirectURI = 'https://github.com/Chanadu'; // Adjust as needed
 
 			const scope = 'user-read-private user-read-email';
@@ -37,20 +39,20 @@ export const server = {
 		handler: async ({ code }) => {
 			const clientID = import.meta.env.SPOTIFY_CLIENT_ID;
 			const clientSecret = import.meta.env.SPOTIFY_CLIENT_SECRET;
+			const redirectURI = 'https://github.com/Chanadu'; // Make sure this matches above
 
 			const authString = `${clientID}:${clientSecret}`;
-			const AuthString = new TextEncoder().encode(authString);
 
 			const response = await fetch('https://accounts.spotify.com/api/token', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded',
-					Authorization: 'Basic ' + AuthString,
+					Authorization: 'Basic ' + btoa(authString),
 				},
 				body: new URLSearchParams({
 					grant_type: 'authorization_code',
 					code: code,
-					redirect_uri: 'github.com/Chanadu', // Adjust as needed
+					redirect_uri: redirectURI, // Must match above
 				}),
 			});
 
@@ -58,3 +60,4 @@ export const server = {
 		},
 	}),
 };
+

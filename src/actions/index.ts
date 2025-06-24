@@ -9,6 +9,15 @@ export function generateRandomString(length: number) {
 
 // ...existing code...
 export const server = {
+	printEnv: defineAction({
+		handler: async (context) => {
+			const { env } = context.locals.runtime;
+			return {
+				SPOTIFY_CLIENT_ID: env.SPOTIFY_CLIENT_ID,
+				SPOTIFY_CLIENT_SECRET: env.SPOTIFY_CLIENT_SECRET,
+			};
+		},
+	}),
 	spotifyAuth: defineAction({
 		handler: async (context) => {
 			const { env } = context.locals.runtime;
@@ -60,4 +69,3 @@ export const server = {
 		},
 	}),
 };
-

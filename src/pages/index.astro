@@ -29,7 +29,7 @@ import Button from '../components/Button.astro';
 	testButton.addEventListener('click', async () => {
 		const { data, error } = await actions.printEnv();
 		if (!error) {
-			alert(data);
+			alert(JSON.stringify(data, null, 2));
 			console.log(data);
 		} else alert(error.message);
 	});

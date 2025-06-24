@@ -24,19 +24,24 @@ export const server = {
 	}),
 	spotifyAuth: defineAction({
 		handler: async () => {
-			let SPOTIFY_CLIENT_ID = import.meta.env.SPOTIFY_CLIENT_ID;
-			var redirect_uri = 'http://127.0.0.1:4321/callback';
-			var state = generateRandomString(16);
+			const clientID = import.meta.env.SPOTIFY_CLIENT_ID;
+			console.log('clientID: ' + clientID);
+			var redirectURI = 'http://127.0.0.1:4321/callback';
 
-			localStorage.setItem('state', state);
-			var scope = 'user-read-private user-read-email';
+			const scope = 'user-read-private user-read-email';
+			const authUrl = new URL('https://accounts.spotify.com/authorize');
+			const state = generateRandomString(16);
 
-			var url = 'https://accounts.spotify.com/authorize';
-			url += '?response_type=token';
-			url += '&client_id=' + encodeURIComponent(SPOTIFY_CLIENT_ID);
-			url += '&scope=' + encodeURIComponent(scope);
-			url += '&redirect_uri=' + encodeURIComponent(redirect_uri);
-			url += '&state=' + encodeURIComponent(state);
+			const params = {
+				response_type: 'code',
+				client_id: clientID,
+				scope: scope,
+				redirect_uri: redirectURI,
+				state: state,
+			};
+
+			authUrl.search = new URLSearchParams(params).toString();
+			return { url: authUrl.toString(), state };
 		},
 	}),
 	askAuthToken: defineAction({

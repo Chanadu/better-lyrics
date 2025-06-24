@@ -7,7 +7,7 @@
 	const urlParams = new URLSearchParams(window.location.search);
 	const code = urlParams.get('code')!;
 
-	const { data, error } = await actions.askAuthToken(code);
+	const { data, error } = await actions.askAuthToken({ code });
 	if (!error) {
 		alert(data);
 		console.log(data);

@@ -1,0 +1,22 @@
+---
+interface Props {
+	songName: string;
+	artist: string;
+	albumName: string;
+	releaseDate: string;
+	length: string;
+	timeStamp: string;
+	plays: number;
+}
+const { songName, artist, albumName, releaseDate, length, timeStamp, plays } = Astro.props;
+---
+
+<li>
+	songName: {songName}<br />
+	Artist: {artist}<br />
+	Album: {albumName}<br />
+	Release Date: {releaseDate}<br />
+	Length: {length}<br />
+	Time Stamp of Lyrics: {timeStamp}<br />
+	Plays: {plays}<br />
+</li>

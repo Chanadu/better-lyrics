@@ -1,0 +1,21 @@
+---
+const text = '';
+import Button from './Button.astro';
+---
+
+<div>
+	<label for='lyrics-input'>Lyrics:</label>
+	<input id='lyrics-input' type='text' class='border' placeholder='Enter lyrics here...' />
+	<!-- <button class='me-2 mb-2 cursor-pointer rounded-lg border px-5 py-2.5 text-center' id='lyrics-submit'>Submit</button -->
+	<!-- > -->
+	<Button id='lyrics-submit'>Submit</Button>
+	<div>{text}</div>
+</div>
+
+<script>
+	const button = document.querySelector('#lyrics-submit')!;
+
+	button.addEventListener('click', () => {
+		alert('Submit Clicked');
+	});
+</script>

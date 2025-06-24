@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import Input from '../components/Input.astro';
 import Output from '../components/Output.astro';
 import Button from '../components/Button.astro';
-import UserProfile from '../components/UserProfile.astro';
 ---
 
 <Layout>
@@ -21,7 +20,7 @@ import UserProfile from '../components/UserProfile.astro';
 <script>
 	import { actions } from 'astro:actions';
 	const accessToken = localStorage.getItem('access_token');
-	if (accessToken != null) {
+	if (accessToken) {
 		window.location.href = '/userProfile';
 	}
 

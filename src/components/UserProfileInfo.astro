@@ -1,0 +1,90 @@
+---
+// interface Props {
+// 	profileData: {
+// 		country: string;
+// 		display_name: string;
+// 		email: string;
+// 		external_urls: {
+// 			spotify: string;
+// 		};
+// 		followers: {
+// 			href: string | null;
+// 			total: number;
+// 		};
+// 		href: string;
+// 		id: string;
+// 		images: Array<{
+// 			height: number | null;
+// 			url: string;
+// 			width: number | null;
+// 		}>;
+// 		product: string;
+// 		type: string;
+// 		uri: string;
+// 	} | null;
+// }
+// const { profileData } = Astro.props;
+---
+
+<div class=''>
+	<h2 class='mb-4 text-2xl font-bold'>User Profile Info:</h2>
+	<div class='rounded-lg border p-6 shadow-md'>
+		<strong>Display Name:</strong><p id='display-name'></p>
+		<strong>Email:</strong><p id='email'></p>
+		<strong>Country:</strong><p id='country'></p>
+		<strong>Followers:</strong><p id='followers'></p>
+		<strong>Spotify Profile:</strong>
+		<a target='_blank' rel='noopener noreferrer' id='profile-link'></a>
+	</div>
+</div>
+
+<script>
+	const accessToken = localStorage.getItem('access_token');
+	if (!accessToken) {
+		alert('Please authenticate first.');
+		// window.localStorage.removeItem('access_token');
+		window.location.href = '/';
+	}
+
+	const response = await fetch('https://api.spotify.com/v1/me', {
+		headers: {
+			Authorization: 'Bearer ' + accessToken,
+		},
+	});
+
+	const profileData: {
+		country: string;
+		display_name: string;
+		email: string;
+		external_urls: {
+			spotify: string;
+		};
+		followers: {
+			href: string | null;
+			total: number;
+		};
+		href: string;
+		id: string;
+		images: Array<{
+			height: number | null;
+			url: string;
+			width: number | null;
+		}>;
+		product: string;
+		type: string;
+		uri: string;
+	} = await response.json();
+
+	const displayName = document.getElementById('display-name')!;
+	const email = document.getElementById('email')!;
+	const country = document.getElementById('country')!;
+	const followers = document.getElementById('followers')!;
+	const profileLink = document.getElementById('profile-link')! as HTMLAnchorElement;
+
+	displayName.textContent += ' ' + profileData.display_name || 'N/A';
+	email.textContent += ' ' + profileData.email || 'N/A';
+	country.textContent += ' ' + profileData.country || 'N/A';
+	followers.textContent += ' ' + profileData.followers.total.toString() || '0';
+	profileLink.textContent += ' ' + profileData.external_urls.spotify || 'N/A';
+	profileLink.href = ' ' + profileData.external_urls.spotify || '#';
+</script>

@@ -28,7 +28,11 @@ import Button from '../components/Button.astro';
 	let state: string = '';
 
 	testButton.addEventListener('click', async () => {
-		const { env } = Astro.locals.runtime;
+		// const { env } = Astro.locals.runtime;
+		const CLIENT_ID = import.meta.env.CLIENT_ID;
+		const CLIENT_SECRET = import.meta.env.CLIENT_ID;
+		console.log('CLIENT_ID', CLIENT_ID);
+		console.log('CLIENT_SECRET', CLIENT_SECRET);
 	});
 
 	authSpotifyButton.addEventListener('click', async () => {});

@@ -7,65 +7,16 @@ import Playlist from './Playlist.astro';
 </div>
 
 <script>
+	import { fetchSpotifyPlaylistList } from '../utils/playlist.ts';
 	const accessToken = localStorage.getItem('access_token') || null;
 	if (!accessToken) {
 		alert('Please authenticate first.');
 		window.localStorage.removeItem('access_token');
+		throw new Error('Access token not found');
 	}
-	const url = 'https://api.spotify.com/v1/me/playlists?limit=20&offset=0';
-	const response = await fetch(url, {
-		headers: {
-			Authorization: 'Bearer ' + accessToken,
-		},
-	});
 
-	const data: {
-		href: string;
-		limit: number;
-		next: string | null;
-		offset: number;
-		previous: string | null;
-		total: number;
-		items: Array<{
-			collaborative: boolean;
-			description: string | null;
-			external_urls: {
-				spotify: string;
-			};
-			href: string;
-			id: string;
-			images: Array<{
-				height: number | null;
-				url: string;
-				width: number | null;
-			}>;
-			name: string;
-			owner: {
-				display_name: string | null;
-				external_urls: {
-					spotify: string;
-				};
-				href: string;
-				id: string;
-				type: string;
-				uri: string;
-			};
-			public: boolean;
-			snapshot_id: string;
-			tracks: {
-				href: string;
-				total: number;
-			};
-			type: string;
-			uri: string;
-		}>;
-	} = await response.json();
+	const data = await fetchSpotifyPlaylistList(accessToken);
 
-	if (!response.ok) {
-		alert('Failed to fetch playlists: ');
-		localStorage.removeItem('access_token');
-		window.location.href = '/';
-	}
 	console.log(data);
 	data.items.sort((a, b) => {
 		if (a.tracks.total < b.tracks.total) return 1;

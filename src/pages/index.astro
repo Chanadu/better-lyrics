@@ -13,8 +13,7 @@ import Button from '../components/Button.astro';
 
 <script>
 	import { actions } from 'astro:actions';
-
-	const accessToken = (await Astro.session?.get('access_token')) || null;
+	const accessToken = localStorage.getItem('access_token');
 	console.log('Access Token:', accessToken);
 	if (accessToken) {
 		window.location.href = '/userProfile';

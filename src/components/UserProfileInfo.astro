@@ -15,7 +15,7 @@
 </div>
 
 <script>
-	const accessToken = (await Astro.session?.get('access_token')) || null;
+	const accessToken = localStorage.getItem('access_token') || null;
 	if (!accessToken) {
 		alert('Please authenticate first.');
 		window.location.href = '/';

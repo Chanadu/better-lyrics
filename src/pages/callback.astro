@@ -17,10 +17,10 @@ import Layout from '../layouts/Layout.astro';
 		console.error('Error Message: ' + error.message);
 	} else {
 		console.log(data);
-		Astro.session?.set('access_token', data.access_token);
+		localStorage.setItem('access_token', data.access_token);
 
 		console.log('Access Token:', data.access_token);
-		console.log('Access toen set in store:', await Astro.session?.get('access_token'));
+		console.log('Access toen set in store:', localStorage.getItem('access_token'));
 		// window.location.href = '/';
 	}
 </script>

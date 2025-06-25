@@ -24,4 +24,5 @@ export default defineConfig({
 			REDIRECT_URI: envField.string({ context: 'client', access: 'public' }),
 		},
 	},
+	output: 'server',
 });

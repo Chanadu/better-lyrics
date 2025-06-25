@@ -15,40 +15,15 @@
 </div>
 
 <script>
+	import { getCurrentUserProfile } from '../utils/spotify.ts';
 	const accessToken = localStorage.getItem('access_token') || null;
 	if (!accessToken) {
 		alert('Please authenticate first.');
 		localStorage.removeItem('access_token');
+		throw new Error('Access token not found');
 	}
 
-	const response = await fetch('https://api.spotify.com/v1/me', {
-		headers: {
-			Authorization: 'Bearer ' + accessToken,
-		},
-	});
-
-	const profileData: {
-		country: string;
-		display_name: string;
-		email: string;
-		external_urls: {
-			spotify: string;
-		};
-		followers: {
-			href: string | null;
-			total: number;
-		};
-		href: string;
-		id: string;
-		images: Array<{
-			height: number | null;
-			url: string;
-			width: number | null;
-		}>;
-		product: string;
-		type: string;
-		uri: string;
-	} = await response.json();
+	const profileData = await getCurrentUserProfile(accessToken);
 
 	const displayName = document.getElementById('display-name')!;
 	const email = document.getElementById('email')!;

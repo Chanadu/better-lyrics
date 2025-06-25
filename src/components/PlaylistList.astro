@@ -13,7 +13,7 @@ import Playlist from './Playlist.astro';
 </div>
 
 <script>
-	const accessToken = localStorage.getItem('access_token');
+	const accessToken = (await Astro.session?.get('access_token')) || null;
 	if (!accessToken) {
 		alert('Please authenticate first.');
 		// window.localStorage.removeItem('access_token');
@@ -71,7 +71,6 @@ import Playlist from './Playlist.astro';
 	if (!response.ok) {
 		alert('Failed to fetch playlists: ');
 		window.location.href = '/';
-		return;
 	}
 	console.log(data);
 </script>

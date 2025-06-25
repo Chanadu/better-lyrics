@@ -1,29 +1,5 @@
 ---
-// interface Props {
-// 	profileData: {
-// 		country: string;
-// 		display_name: string;
-// 		email: string;
-// 		external_urls: {
-// 			spotify: string;
-// 		};
-// 		followers: {
-// 			href: string | null;
-// 			total: number;
-// 		};
-// 		href: string;
-// 		id: string;
-// 		images: Array<{
-// 			height: number | null;
-// 			url: string;
-// 			width: number | null;
-// 		}>;
-// 		product: string;
-// 		type: string;
-// 		uri: string;
-// 	} | null;
-// }
-// const { profileData } = Astro.props;
+
 ---
 
 <div class=''>
@@ -39,10 +15,9 @@
 </div>
 
 <script>
-	const accessToken = localStorage.getItem('access_token');
+	const accessToken = (await Astro.session?.get('access_token')) || null;
 	if (!accessToken) {
 		alert('Please authenticate first.');
-		// window.localStorage.removeItem('access_token');
 		window.location.href = '/';
 	}
 

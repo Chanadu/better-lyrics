@@ -1,31 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Input from '../components/Input.astro';
-import Output from '../components/Output.astro';
 import Button from '../components/Button.astro';
 ---
 
 <Layout>
 	<div class='flex h-full w-full items-center justify-center gap-4'>
-		<!-- <Input /> -->
 		<div class='h-12'></div>
-		<!-- <Output /> -->
 		<Button id='test-button'>Test</Button>
 		<Button id='auth-spotify'>Auth Spotify</Button>
-		<Button id='get-profile'>Get Profile</Button>
-		<!-- <UserProfile profileData={null} /> -->
 	</div>
 </Layout>
 
 <script>
 	import { actions } from 'astro:actions';
-	const accessToken = localStorage.getItem('access_token');
+
+	const accessToken = (await Astro.session?.get('access_token')) || null;
+	console.log('Access Token:', accessToken);
 	if (accessToken) {
 		window.location.href = '/userProfile';
 	}
 
 	const authSpotifyButton = document.querySelector('#auth-spotify')!;
-	const getProfileButton = document.querySelector('#get-profile')!;
 	const testButton = document.querySelector('#test-button')!;
 
 	testButton.addEventListener('click', async () => {
@@ -43,22 +38,5 @@ import Button from '../components/Button.astro';
 		}
 
 		window.location.href = data.url;
-	});
-
-	getProfileButton.addEventListener('click', async () => {
-		const accessToken = localStorage.getItem('access_token');
-		if (!accessToken) {
-			alert('Please authenticate first.');
-			return;
-		}
-
-		const response = await fetch('https://api.spotify.com/v1/me', {
-			headers: {
-				Authorization: 'Bearer ' + accessToken,
-			},
-		});
-
-		const data = await response.json();
-		console.log(data);
 	});
 </script>

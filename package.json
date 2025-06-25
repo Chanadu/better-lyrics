@@ -11,8 +11,10 @@
 	"dependencies": {
 		"@astrojs/cloudflare": "^12.6.0",
 		"@astrojs/ts-plugin": "^1.10.4",
+		"@nanostores/persistent": "^1.0.0",
 		"@tailwindcss/vite": "^4.1.10",
 		"astro": "^5.10.1",
+		"nanostores": "^1.0.1",
 		"tailwindcss": "^4.1.10",
 		"wrangler": "^4.21.0"
 	},

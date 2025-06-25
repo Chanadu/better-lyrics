@@ -3,6 +3,10 @@ import Layout from '../layouts/Layout.astro';
 import Button from '../components/Button.astro';
 import UserProfileInfo from '../components/UserProfileInfo.astro';
 import PlaylistList from '../components/PlaylistList.astro';
+
+console.log('Access Token:', Astro.session?.get('access_token'));
+
+const token = Astro.session?.get('access_token') || '';
 ---
 
 <Layout>
@@ -16,12 +20,14 @@ import PlaylistList from '../components/PlaylistList.astro';
 		<PlaylistList />
 	</div>
 </Layout>
+Token: {token}
 
 <script>
 	const logoutButton = document.querySelector('#logout')!;
 
 	logoutButton.addEventListener('click', () => {
-		localStorage.setItem('access_token', '');
+		Astro.session?.set('access_token', '');
 		window.location.href = '/';
 	});
+	console.log(Astro.session?.get('access_token'));
 </script>

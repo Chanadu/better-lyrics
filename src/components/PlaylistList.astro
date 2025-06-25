@@ -16,8 +16,7 @@ import Playlist from './Playlist.astro';
 	const accessToken = localStorage.getItem('access_token') || null;
 	if (!accessToken) {
 		alert('Please authenticate first.');
-		// window.localStorage.removeItem('access_token');
-		window.location.href = '/';
+		window.localStorage.removeItem('access_token');
 	}
 	const url = 'https://api.spotify.com/v1/me/playlists?limit=20&offset=0';
 	const response = await fetch(url, {
@@ -70,7 +69,17 @@ import Playlist from './Playlist.astro';
 
 	if (!response.ok) {
 		alert('Failed to fetch playlists: ');
+		localStorage.removeItem('access_token');
 		window.location.href = '/';
 	}
 	console.log(data);
+	data.items.forEach((playlist) => {
+		const playlistElement = document.createElement('Playlist');
+		playlistElement.setAttribute('name', playlist.name);
+		playlistElement.setAttribute('description', playlist.description || 'No description');
+		playlistElement.setAttribute('image', playlist.images[0]?.url || '');
+		playlistElement.setAttribute('owner', playlist.owner.display_name || 'Unknown');
+		playlistElement.setAttribute('external-url', playlist.external_urls.spotify);
+		document.querySelector('ul')!.appendChild(playlistElement);
+	});
 </script>

@@ -2,14 +2,8 @@
 import Playlist from './Playlist.astro';
 ---
 
-<div class='rounded-lg border p-6 shadow-md'>
-	<ul class='flex flex-col gap-4'>
-		<Playlist />
-		<Playlist />
-		<Playlist />
-		<Playlist />
-		<Playlist />
-	</ul>
+<div class='mx-32 rounded-lg border p-6 shadow-md'>
+	<ul class='flex flex-col gap-4'></ul>
 </div>
 
 <script>
@@ -73,13 +67,61 @@ import Playlist from './Playlist.astro';
 		window.location.href = '/';
 	}
 	console.log(data);
+	data.items.sort((a, b) => {
+		if (a.tracks.total < b.tracks.total) return 1;
+		if (a.tracks.total > b.tracks.total) return -1;
+		if (a.name < b.name) return -1;
+		if (a.name > b.name) return 1;
+		return 0;
+	});
+
+	let i = 0;
 	data.items.forEach((playlist) => {
-		const playlistElement = document.createElement('Playlist');
-		playlistElement.setAttribute('name', playlist.name);
-		playlistElement.setAttribute('description', playlist.description || 'No description');
-		playlistElement.setAttribute('image', playlist.images[0]?.url || '');
-		playlistElement.setAttribute('owner', playlist.owner.display_name || 'Unknown');
-		playlistElement.setAttribute('external-url', playlist.external_urls.spotify);
+		let index = i;
+		i++;
+		const playlistElement = document.createElement('li');
+		playlistElement.setAttribute(
+			'class',
+			'playlist-item rounded-lg border p-4 shadow-sm flex flex-row justify-between items-center',
+		);
+		playlistElement.setAttribute('id', `playlist-${index}`);
+		playlistElement.innerHTML = `
+			<div>
+				<h2 class='text-lg font-semibold'>${playlist.name}</h2>
+				<h3 class='text-sm text-gray-300'>by ${playlist.owner.display_name || 'Unknown'}</h3>
+				<h3 class='text-sm inline'>${playlist.tracks.total} tracks</h3>
+				<p class='text-sm'>${playlist.description || 'No description available.'}</p>
+			</div>
+			<div class="flex flex-col gap-4">
+				<button class='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer' 
+					id='use-button-playlist-${index}'>Use</button>
+				<button class='bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer' 
+					id='view-button-playlist-${index}'>View on Spotify</button>
+			</div>
+		`;
 		document.querySelector('ul')!.appendChild(playlistElement);
+	});
+	i = 0;
+	data.items.forEach((playlist) => {
+		let index = i;
+		i++;
+
+		const useButton = document.getElementById(`use-button-playlist-${index}`);
+		if (useButton) {
+			useButton.addEventListener('click', () => {
+				localStorage.setItem('playlist_id', playlist.id);
+				window.location.href = '/playlist?id=' + playlist.id;
+			});
+		} else {
+			alert('Use button not found for playlist: ' + playlist.name);
+		}
+		const viewButton = document.getElementById(`view-button-playlist-${index}`);
+		if (viewButton) {
+			viewButton.addEventListener('click', () => {
+				window.open(playlist.external_urls.spotify, '_blank');
+			});
+		} else {
+			alert('View button not found for playlist: ' + playlist.name);
+		}
 	});
 </script>

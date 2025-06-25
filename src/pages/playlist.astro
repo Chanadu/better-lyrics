@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout> test </Layout>
+
+<script>
+	const urlParams = new URLSearchParams(window.location.search);
+	const playlistId = urlParams.get('id');
+	if (!playlistId) {
+		alert('Need playlistID');
+		window.location.href = '/';
+	}
+</script>

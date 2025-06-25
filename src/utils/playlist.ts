@@ -1,3 +1,35 @@
+export interface SpotifyArtist {
+	id: string;
+	name: string;
+	external_urls: {
+		spotify: string;
+	};
+	href: string;
+}
+
+export interface SpotifyAlbum {
+	album_type: string;
+	total_tracks: number;
+	id: string;
+	name: string;
+	release_date: string;
+	artists: Array<SpotifyArtist>;
+}
+
+export interface SpotifyTrack {
+	added_at: string;
+	is_local: boolean;
+	track: {
+		album: SpotifyAlbum;
+		artists: Array<SpotifyArtist>;
+		disc_number: number;
+		duration_ms: number;
+		id: string;
+		name: string;
+		track_number: number;
+	};
+}
+
 export interface SpotifyPlaylist {
 	collaborative: boolean;
 	description: string | null;
@@ -27,6 +59,9 @@ export interface SpotifyPlaylist {
 	tracks: {
 		href: string;
 		total: number;
+		next: string | null;
+		previous: string | null;
+		items: Array<SpotifyTrack>;
 	};
 	type: string;
 	uri: string;

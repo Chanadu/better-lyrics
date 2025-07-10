@@ -14,7 +14,6 @@
 		"@nanostores/persistent": "^1.0.0",
 		"@tailwindcss/vite": "^4.1.10",
 		"astro": "^5.10.1",
-		"genius-lyrics-api": "^3.2.1",
 		"nanostores": "^1.0.1",
 		"tailwindcss": "^4.1.10",
 		"wrangler": "^4.21.0"

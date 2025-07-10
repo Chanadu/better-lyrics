@@ -2,41 +2,73 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout>
-	<h1 id='playlist-header' class='text-3xl underline'>Playlist:</h1>
-	<h2 id='playlist-name' class='text-2xl'>Loading...</h2>
-	<h3 id='playlist-owner' class='text-xl'>Loading...</h3>
-	<h3 id='playlist-description' class='text-xl'>Loading...</h3>
-	<h3 id=' playlist-tracks' class='text-xl'>Loading...</h3>
-	<ul id='track-list' class='flex flex-col gap-4 rounded-lg border p-4'>Track 1</ul>
-</Layout>
+<Layout> test </Layout>
 
 <script>
-	import { fetchSpotifyPlaylist } from '../utils/playlist';
 	const urlParams = new URLSearchParams(window.location.search);
 	const playlistID = urlParams.get('id');
 	if (!playlistID) {
 		alert('Need playlistID');
 		window.location.href = '/';
-		throw new Error('Playlist ID not found in URL');
 	}
-
 	const accessToken = localStorage.getItem('access_token') || null;
 	if (!accessToken) {
 		alert('Please authenticate first.');
 		window.localStorage.removeItem('access_token');
-		throw new Error('Access token not found');
 	}
+	const url = 'https://api.spotify.com/v1/me/playlists?limit=20&offset=0';
+	const response = await fetch(url, {
+		headers: {
+			Authorization: 'Bearer ' + accessToken,
+		},
+	});
 
-	const data = await fetchSpotifyPlaylist(accessToken, playlistID);
+	const data: {
+		href: string;
+		limit: number;
+		next: string | null;
+		offset: number;
+		previous: string | null;
+		total: number;
+		items: Array<{
+			collaborative: boolean;
+			description: string | null;
+			external_urls: {
+				spotify: string;
+			};
+			href: string;
+			id: string;
+			images: Array<{
+				height: number | null;
+				url: string;
+				width: number | null;
+			}>;
+			name: string;
+			owner: {
+				display_name: string | null;
+				external_urls: {
+					spotify: string;
+				};
+				href: string;
+				id: string;
+				type: string;
+				uri: string;
+			};
+			public: boolean;
+			snapshot_id: string;
+			tracks: {
+				href: string;
+				total: number;
+			};
+			type: string;
+			uri: string;
+		}>;
+	} = await response.json();
 
-	const playlistName = document.getElementById('playlist-name')!;
-	const playlistOwner = document.getElementById('playlist-owner')!;
-	const playlistDescription = document.getElementById('playlist-description')!;
-	const playlistTracks = document.getElementById('playlist-tracks')!;
-
-	playlistName.textContent = data.name || 'N/A';
-	playlistOwner.textContent = `by ${data.owner.display_name || 'Unknown'}`;
-	playlistDescription.textContent = data.description || 'No description available.';
-	playlistTracks.textContent = `${data.tracks.total} tracks`;
+	if (!response.ok) {
+		alert('Failed to fetch playlists: ');
+		localStorage.removeItem('access_token');
+		window.location.href = '/';
+	}
+	console.log(data);
 </script>

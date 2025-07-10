@@ -1,4 +1,4 @@
-export interface SpotifyUserProfile {
+interface SpotifyUserProfile {
 	country: string;
 	display_name: string;
 	email: string;
@@ -28,10 +28,16 @@ export async function fetchCurrentUserProfile(accessToken: string): Promise<Spot
 		},
 	});
 
-	const profileData: SpotifyUserProfile = await response.json();
+	const profileData = await response.json();
 	if (!response.ok) {
-		throw new Error(`Error fetching user profile: ${response.status} ${response.statusText}`);
+		throw new Error(`Error fetching user profile: ${profileData.error.message}`);
+	}
+	if (!profileData || !profileData.id) {
+		throw new Error('Invalid user profile data received from Spotify API');
+	}
+	if (profileData as any as SpotifyUserProfile) {
+		return profileData as SpotifyUserProfile;
 	}
 
-	return profileData as SpotifyUserProfile;
+	throw new Error('Unexpected user profile data format received from Spotify API');
 }

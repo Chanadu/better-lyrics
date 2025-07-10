@@ -15,8 +15,7 @@
 </div>
 
 <script>
-	import { fetchCurrentUserProfile } from '../utils/userProfile.ts';
-
+	import { getCurrentUserProfile } from '../utils/spotify.ts';
 	const accessToken = localStorage.getItem('access_token') || null;
 	if (!accessToken) {
 		alert('Please authenticate first.');
@@ -24,7 +23,7 @@
 		throw new Error('Access token not found');
 	}
 
-	const profileData = await fetchCurrentUserProfile(accessToken);
+	const profileData = await getCurrentUserProfile(accessToken);
 
 	const displayName = document.getElementById('display-name')!;
 	const email = document.getElementById('email')!;

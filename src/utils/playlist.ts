@@ -1,4 +1,4 @@
-export interface SpotifyPlaylist {
+interface SpotifyPlaylist {
 	collaborative: boolean;
 	description: string | null;
 	external_urls: {
@@ -32,7 +32,7 @@ export interface SpotifyPlaylist {
 	uri: string;
 }
 
-export interface SpotifyPlaylistList {
+interface SpotifyPlaylistList {
 	href: string;
 	limit: number;
 	next: string | null;
@@ -42,38 +42,4 @@ export interface SpotifyPlaylistList {
 	items: Array<SpotifyPlaylist>;
 }
 
-export async function fetchSpotifyPlaylistList(
-	accessToken: string,
-	limit = 20,
-	offset = 0,
-): Promise<SpotifyPlaylistList> {
-	const url = `https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`;
-	const response = await fetch(url, {
-		headers: {
-			Authorization: 'Bearer ' + accessToken,
-		},
-	});
-
-	const data: SpotifyPlaylistList = await response.json();
-
-	if (!response.ok) {
-		alert('Failed to fetch playlists: ');
-		throw new Error('Failed to fetch playlists: ');
-	}
-	return data;
-}
-
-export async function fetchSpotifyPlaylist(accessToken: string, playlistId: string): Promise<SpotifyPlaylist> {
-	const url = `https://api.spotify.com/v1/playlists/${playlistId}`;
-	const response = await fetch(url, {
-		headers: {
-			Authorization: 'Bearer ' + accessToken,
-		},
-	});
-	const data: SpotifyPlaylist = await response.json();
-	if (!response.ok) {
-		alert('Failed to fetch playlist: ');
-		throw new Error('Failed to fetch playlist: ');
-	}
-	return data;
-}
+export async function fetchSpotifyPlaylists() {}

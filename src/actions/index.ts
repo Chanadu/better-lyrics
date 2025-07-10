@@ -1,4 +1,4 @@
-import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET } from 'astro:env/server';
+import { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, GENIUS_CLIENT_ACCESS_TOKEN } from 'astro:env/server';
 import { REDIRECT_URI } from 'astro:env/client';
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
@@ -12,16 +12,17 @@ export function generateRandomString(length: number) {
 // ...existing code...
 export const server = {
 	printEnv: defineAction({
-		handler: async () => {
+		handler: () => {
 			return {
 				SPOTIFY_CLIENT_ID: SPOTIFY_CLIENT_ID,
 				SPOTIFY_CLIENT_SECRET: SPOTIFY_CLIENT_SECRET,
 				REDIRECT_URI: REDIRECT_URI,
+				GENIUS_CLIENT_ACCESS_TOKEN,
 			};
 		},
 	}),
 	spotifyAuth: defineAction({
-		handler: async () => {
+		handler: () => {
 			console.log('clientID: ' + SPOTIFY_CLIENT_ID);
 
 			const scope = 'user-read-private user-read-email';
@@ -61,6 +62,11 @@ export const server = {
 			});
 
 			return response.json();
+		},
+	}),
+	getGeniusClientAccessToken: defineAction({
+		handler: () => {
+			return { GENIUS_CLIENT_ACCESS_TOKEN };
 		},
 	}),
 };

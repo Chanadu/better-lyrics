@@ -14,7 +14,7 @@ export default defineConfig({
 	adapter: cloudflare({
 		platformProxy: {
 			enabled: true,
-			configPath: './wrangler.json',
+			// configPath: './wrangler.json',
 		},
 	}),
 	env: {
@@ -22,6 +22,7 @@ export default defineConfig({
 			SPOTIFY_CLIENT_ID: envField.string({ context: 'server', access: 'secret' }),
 			SPOTIFY_CLIENT_SECRET: envField.string({ context: 'server', access: 'secret' }),
 			REDIRECT_URI: envField.string({ context: 'client', access: 'public' }),
+			GENIUS_CLIENT_ACCESS_TOKEN: envField.string({ context: 'server', access: 'secret' }),
 		},
 	},
 	output: 'server',
